@@ -5,7 +5,7 @@
 
 Game::Game() {}
 
-Game::Game(const std::string& framesOfOneGame)
+Game::Game(const std::string& framesOfOneGame) : numberRolls_(10), currentRolls_(0)
 {
     std::stringstream frames(framesOfOneGame);
     std::string oneFrame;
@@ -121,4 +121,13 @@ void Game::setValueFrameAndPrevFrames(int pos, const std::string& value)
             frame_[pos - 2].addValue(firstBall);
         }
     }
+    currentRolls_++;
+    if (pos == 9 && value.size() == 2 && value[1] == '/') numberRolls_ = 11;
+    if (pos == 9 && value[0] == 'X') numberRolls_ = 12;
+}
+
+std::string Game::getStatus() const
+{
+    if (currentRolls_ == numberRolls_ ) return "Game finished";
+    return "game in progress";
 }
